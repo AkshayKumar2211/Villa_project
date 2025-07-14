@@ -1,0 +1,57 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Villa_project.Domain.Entities;
+
+namespace Villa_project.Infrastructure.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public DbSet<Villa> Villas { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Villa>().HasData(
+                new Villa
+                {
+                    Id = 1,
+                    Name="Villa1",
+                    Description="Villa one discription",
+                    Price=1000,
+                    Sqft=1000,
+                    Occupancy=3,
+                    ImageUrl="https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmlsbGF8ZW58MHx8MHx8fDA%3D"
+                },
+                new Villa
+                {
+                    Id = 2,
+                    Name="Villa 2",
+                    Description="Villa two discription",
+                    Price=4000,
+                    Sqft=3000,
+                    Occupancy=4,
+                    ImageUrl="https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmlsbGF8ZW58MHx8MHx8fDA%3D"
+                },
+                new Villa
+                {
+                    Id = 3,
+                    Name="Villa3",
+                    Description="Villa three discription",
+                    Price=2000,
+                    Sqft=5000,
+                    Occupancy=6,
+                    ImageUrl="https://plus.unsplash.com/premium_photo-1661915661139-5b6a4e4a6fcc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dmlsbGF8ZW58MHx8MHx8fDA%3D"
+                }
+                );
+        }
+    }
+}
