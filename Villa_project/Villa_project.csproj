@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Villa_project.Infrastructure\Villa_project.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

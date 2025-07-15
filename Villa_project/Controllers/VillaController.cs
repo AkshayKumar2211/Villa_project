@@ -23,17 +23,30 @@ namespace Villa_project.Controllers
         {
             if (villaId==null) return View();
 
-            var villaInDb = _db.Villas.Find(villaId);
+            //var villaInDb = _db.Villas.Find(villaId);
+            // for filter we use where
+            //_db.Villas.Where(u => u.Id>4);
+
+            var villaInDb=_db.Villas.FirstOrDefault(u=>u.Id==villaId);
+            if(villaInDb==null)
+            {
+                return RedirectToAction("Error","Home");
+            }
             return View(villaInDb);
         }
         [HttpPost]
         public IActionResult Edit(Villa villa)
         {
-            if (!ModelState.IsValid) return NotFound();
 
-            _db.Villas.Update(villa);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Update(villa);
+                _db.SaveChanges();
+                TempData["success"]="The data have been updated";
+                return RedirectToAction("Index");
+            }
+            TempData["error"]="The data have not been updated";
+            return View(villa);
         }
         
         public IActionResult Create()
@@ -43,15 +56,25 @@ namespace Villa_project.Controllers
         [HttpPost]
         public IActionResult Create(Villa villa)
         {
-            if (!ModelState.IsValid) return NotFound();
 
-            _db.Villas.Add(villa);
-            _db.SaveChanges();
+            if(villa.Name==villa.Description)
+            {
+                ModelState.AddModelError("name", "The name and description cannot be same");
+            }
 
-            return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                _db.Villas.Add(villa);
+                _db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(villa);
         }
 
-        /*public IActionResult Delete(int villaId)
+        public IActionResult Delete(int villaId)
         {
             if (villaId==null) return NotFound();
 
@@ -62,19 +85,22 @@ namespace Villa_project.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(int villaId)
+        public IActionResult Delete(Villa villa)
         {
-            if (!ModelState.IsValid) return NotFound();
-
-            var villaInDb = _db.Villas.Find(villaId);
-
             
-            _db.Villas.Remove(villaInDb);
+            var villaInDb = _db.Villas.Find(villa.Id);
 
+            if (villaInDb is not null)
+            {
+                _db.Villas.Remove(villaInDb);
+                _db.SaveChanges();
+                TempData["Success"]="The data has been deleted";
+                return RedirectToAction("Index");
+            }
 
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        } */
+            TempData["error"]="The data has not been deleted";
+            return View();
+        } 
 
 
     }
