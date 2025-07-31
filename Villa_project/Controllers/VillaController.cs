@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Villa_project.Application.Common.Interfaces;
 using Villa_project.Domain.Entities;
 using Villa_project.Infrastructure.Data;
 
@@ -7,15 +8,19 @@ namespace Villa_project.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public VillaController(ApplicationDbContext db)
+        //   private readonly ApplicationDbContext _db;   for simple
+
+        //using generic repository
+
+        private readonly IUnitOfWork _unitOfWork;
+        public VillaController(IUnitOfWork unitOfWork)
         {
-            _db=db;
+            _unitOfWork=unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var villas = _db.Villas.ToList();
+            var villas =_unitOfWork.villa.GetAll();
             return View(villas);
         }
 
@@ -27,7 +32,7 @@ namespace Villa_project.Controllers
             // for filter we use where
             //_db.Villas.Where(u => u.Id>4);
 
-            var villaInDb=_db.Villas.FirstOrDefault(u=>u.Id==villaId);
+            var villaInDb= _unitOfWork.villa.Get(u=>u.Id==villaId);
             if(villaInDb==null)
             {
                 return RedirectToAction("Error","Home");
@@ -40,8 +45,8 @@ namespace Villa_project.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Villas.Update(villa);
-                _db.SaveChanges();
+                _unitOfWork.villa.Update(villa);
+                _unitOfWork.Save();
                 TempData["success"]="The data have been updated";
                 return RedirectToAction("Index");
             }
@@ -65,8 +70,8 @@ namespace Villa_project.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Villas.Add(villa);
-                _db.SaveChanges();
+                _unitOfWork.villa.Add(villa);
+                _unitOfWork.Save();
 
                 return RedirectToAction("Index");
             }
@@ -78,7 +83,7 @@ namespace Villa_project.Controllers
         {
             if (villaId==null) return NotFound();
 
-            var villaInDb = _db.Villas.Find(villaId);
+            var villaInDb = _unitOfWork.villa.Get(u => u.Id==villaId);
 
             return View(villaInDb);
           
@@ -88,12 +93,12 @@ namespace Villa_project.Controllers
         public IActionResult Delete(Villa villa)
         {
             
-            var villaInDb = _db.Villas.Find(villa.Id);
+            var villaInDb = _unitOfWork.villa.Get(u=>u.Id==villa.Id);
 
             if (villaInDb is not null)
             {
-                _db.Villas.Remove(villaInDb);
-                _db.SaveChanges();
+                _unitOfWork.villa.Remove(villaInDb);
+                _unitOfWork.Save();
                 TempData["Success"]="The data has been deleted";
                 return RedirectToAction("Index");
             }
