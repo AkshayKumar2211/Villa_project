@@ -17,12 +17,15 @@ namespace Villa_project.Infrastructure.Repository
             _db= db;
             villa=new VillaRepository(_db);
             villaNumber=new VillaNumberRepository(_db);
+            amenity=new AmenityRepository(_db);
         }
         public IVillaRepository villa { get; private set; }
 
        public IVillaNumberRepository villaNumber { get; private set; }
 
-       public void Save()
+        public IAmenityRepository amenity { get; private set; }
+
+        public void Save()
         {
             _db.SaveChanges();
         }

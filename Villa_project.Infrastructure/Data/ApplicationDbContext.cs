@@ -18,6 +18,8 @@ namespace Villa_project.Infrastructure.Data
 
         public DbSet<VillaNumber> VillaNumbers { get; set; }
 
+        public DbSet<Amenity> Amenities { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // base.OnModelCreating(modelBuilder);

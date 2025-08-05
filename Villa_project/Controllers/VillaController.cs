@@ -13,9 +13,11 @@ namespace Villa_project.Controllers
         //using generic repository
 
         private readonly IUnitOfWork _unitOfWork;
-        public VillaController(IUnitOfWork unitOfWork)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork=unitOfWork;
+            _webHostEnvironment=webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -43,8 +45,29 @@ namespace Villa_project.Controllers
         public IActionResult Edit(Villa villa)
         {
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && villa.Id>0)
             {
+                if (villa.Image!=null)
+                {
+                    string fileName = Guid.NewGuid().ToString()+ Path.GetExtension(villa.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\Villa");
+
+                    if(!string.IsNullOrEmpty(villa.ImageUrl))
+                    {
+                        var oldImagePath=Path.Combine(_webHostEnvironment.WebRootPath,villa.ImageUrl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImagePath)) 
+                            {
+                               System.IO.File.Delete(oldImagePath);
+                            }
+
+                    }
+
+                    using var filestream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+
+                    villa.Image.CopyTo(filestream);
+                    villa.ImageUrl=@"\images\Villa\"+fileName;
+                }
+               
                 _unitOfWork.villa.Update(villa);
                 _unitOfWork.Save();
                 TempData["success"]="The data have been updated";
@@ -70,7 +93,22 @@ namespace Villa_project.Controllers
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.villa.Add(villa);
+
+               if(villa.Image!=null)
+                {
+                    string fileName = Guid.NewGuid().ToString()+ Path.GetExtension(villa.Image.FileName);
+                    string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\Villa");
+
+                    using var filestream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create); 
+
+                    villa.Image.CopyTo(filestream);
+                    villa.ImageUrl=@"\images\Villa\"+fileName;
+                }
+                else
+                {
+                    villa.ImageUrl="Add Default image";
+                }
+                 _unitOfWork.villa.Add(villa);
                 _unitOfWork.Save();
 
                 return RedirectToAction("Index");
@@ -97,6 +135,15 @@ namespace Villa_project.Controllers
 
             if (villaInDb is not null)
             {
+                if (!string.IsNullOrEmpty(villa.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villa.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+
+                }
                 _unitOfWork.villa.Remove(villaInDb);
                 _unitOfWork.Save();
                 TempData["Success"]="The data has been deleted";

@@ -11,6 +11,8 @@ namespace Villa_project.Application.Common.Interfaces
         IVillaRepository villa { get; }
         IVillaNumberRepository villaNumber { get; }
 
+        IAmenityRepository amenity { get; }
+
         void Save();
     }
 }
