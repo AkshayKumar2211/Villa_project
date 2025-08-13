@@ -1,21 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Villa_project.Application.Common.Interfaces;
 using Villa_project.Models;
+using Villa_project.ViewModels;
 
 namespace Villa_project.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+           _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM homeVM = new HomeVM()
+            {
+                VillaList=_unitOfWork.villa.GetAll(includeProperties:"VillaAmenity"),  
+                Nights=1,
+                CheckInDate=DateOnly.FromDateTime(DateTime.Now),
+
+
+            };
+            return View(homeVM);
         }
 
         public IActionResult Privacy()
