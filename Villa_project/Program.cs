@@ -16,6 +16,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServe
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath="/Account/AccessDenied";
+    options.LoginPath="/Account/Login";
+});
+
+builder.Services.Configure<IdentityOptions>(
+    options =>
+    {
+        options.Password.RequiredLength=6;
+    });
+
+
 
 var app = builder.Build();
 

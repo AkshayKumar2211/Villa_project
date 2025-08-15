@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Villa_project.Application.Common.Interfaces;
 using Villa_project.Domain.Entities;
@@ -6,6 +7,7 @@ using Villa_project.Infrastructure.Data;
 
 namespace Villa_project.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
         //   private readonly ApplicationDbContext _db;   for simple
