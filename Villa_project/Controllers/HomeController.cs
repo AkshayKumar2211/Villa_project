@@ -1,5 +1,7 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
+using System.Diagnostics;
 using Villa_project.Application.Common.Interfaces;
 using Villa_project.Models;
 using Villa_project.ViewModels;
@@ -28,6 +30,47 @@ namespace Villa_project.Controllers
             return View(homeVM);
         }
 
+        [HttpPost]
+        public IActionResult Index(HomeVM homeVM)
+        {
+                homeVM.VillaList=_unitOfWork.villa.GetAll(includeProperties: "VillaAmenity");
+
+            foreach (var villa in homeVM.VillaList)
+            {
+                if(villa.Id%2==0)
+                {
+                    villa.IsAvailable=false;
+                }
+            }
+                return View(homeVM);
+        }
+
+        public IActionResult GetVillasByDate(int nights,DateOnly CheckInDate)
+        {
+          //  Thread.Sleep(2000); // this for loading spinner
+            var villaList = _unitOfWork.villa.GetAll(includeProperties: "VillaAmenity").ToList();
+           foreach(var villa in villaList)
+            {
+                if(villa.Id %2 ==0)
+                {
+                    villa.IsAvailable=false;
+                }
+            }
+
+            HomeVM homeVM = new()
+            {
+                CheckInDate=CheckInDate,
+                VillaList=villaList,
+                Nights=nights
+            };
+
+            return PartialView("_VillaList", homeVM);
+        }
+
+
+  
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -40,3 +83,6 @@ namespace Villa_project.Controllers
         }
     }
 }
+
+
+// start from vedio 13
