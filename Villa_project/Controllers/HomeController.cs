@@ -31,20 +31,6 @@ namespace Villa_project.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(HomeVM homeVM)
-        {
-                homeVM.VillaList=_unitOfWork.villa.GetAll(includeProperties: "VillaAmenity");
-
-            foreach (var villa in homeVM.VillaList)
-            {
-                if(villa.Id%2==0)
-                {
-                    villa.IsAvailable=false;
-                }
-            }
-                return View(homeVM);
-        }
-
         public IActionResult GetVillasByDate(int nights,DateOnly CheckInDate)
         {
           //  Thread.Sleep(2000); // this for loading spinner

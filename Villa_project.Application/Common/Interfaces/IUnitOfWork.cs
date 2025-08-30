@@ -10,7 +10,8 @@ namespace Villa_project.Application.Common.Interfaces
     {
         IVillaRepository villa { get; }
         IVillaNumberRepository villaNumber { get; }
-
+        IBookingRepository Booking { get; }
+        IApplicationUserRepository User { get; }
         IAmenityRepository amenity { get; }
 
         void Save();
