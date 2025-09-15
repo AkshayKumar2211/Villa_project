@@ -1,0 +1,84 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav ms-auto align-items-center gap-2">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <!-- Greeting -->
+        <li class="nav-item">
+            <a class="nav-link nav-hover fw-semibold d-flex align-items-center gap-1" href="#">
+                <i class="bi bi-person-circle text-gradient"></i>
+                Hello, @UserManager.GetUserName(User)
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm rounded-pill nav-btn px-3" asp-controller="Account" asp-action="Logout">
+                Logout
+            </a>
+        </li>
+    }
+    else
+    {
+        <!-- Register -->
+        <li class="nav-item">
+            <a class="btn btn-primary btn-sm rounded-pill nav-btn px-3" asp-controller="Account" asp-action="Register">
+                Register
+            </a>
+        </li>
+
+        <!-- Login -->
+        <li class="nav-item">
+            <a class="btn btn-outline-light btn-sm rounded-pill nav-btn px-3" asp-controller="Account" asp-action="Login">
+                Login
+            </a>
+        </li>
+    }
+</ul>
+
+<style>
+    /* Match nav link hover effect */
+    .nav-hover {
+        position: relative;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .nav-hover::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            left: 0;
+            bottom: -3px;
+            background: #ff7eb3;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-hover:hover::after {
+            width: 100%;
+        }
+
+        .nav-hover:hover {
+            color: #ff7eb3 !important;
+        }
+
+    /* Navbar buttons */
+    .nav-btn {
+        transition: all 0.3s ease-in-out;
+        font-weight: 600;
+    }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.5);
+        }
+
+    /* Gradient text */
+    .text-gradient {
+        background: linear-gradient(90deg, #ff7eb3, #d65db1, #845ec2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>

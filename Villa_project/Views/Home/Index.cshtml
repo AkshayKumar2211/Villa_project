@@ -1,0 +1,185 @@
+﻿@model HomeVM
+
+<div class="container py-5 text-light">
+    <!-- Carousel -->
+    <div id="carouselExampleIndicators" class="carousel slide mb-5 rounded-4 overflow-hidden shadow" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/images/slide2.jpg" class="d-block w-100" alt="Villa Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/slide1.jpg" class="d-block w-100" alt="Villa Slide 1">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Search Form -->
+    <form method="post" asp-action="GetVillasByDate" class="bg-dark p-4 rounded-4 shadow-lg border border-secondary">
+        <h3 class="text-center text-warning mb-4">
+            <i class="bi bi-calendar-check-fill me-2"></i> Plan Your Stay
+        </h3>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-5 offset-md-1">
+                <label class="form-label text-light fw-semibold">Check-In Date</label>
+                <input asp-for="CheckInDate" type="date" class="form-control bg-dark text-light border-light shadow-sm" id="CheckInDate" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-light fw-semibold">No. of Nights</label>
+                <select class="form-select bg-dark text-light border-light shadow-sm" asp-for="Nights" id="Nights">
+                    @for (var i = 1; i < 11; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2 text-end">
+                <button type="button" onclick="fnLoadVillaList()" class="btn btn-warning w-100 shadow-sm">
+                    <i class="bi bi-search"></i> Check Availability
+                </button>
+            </div>
+        </div>
+
+        <!-- Spinner -->
+        <div class="text-center mt-4">
+            <div class="spinner-border text-warning spinner" role="status" style="display:none;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Villa List -->
+        <div id="VillasList" class="mt-4">
+            <partial name="_VillaList" model="Model" />
+        </div>
+    </form>
+
+    <!-- Explore Destinations -->
+    <section class="mt-5">
+        <h4 class="text-warning text-center mb-4">🌍 Explore Top Destinations</h4>
+        <div class="row g-4">
+            <!-- Villa 1 -->
+            <div class="col-md-4">
+                <div class="card bg-dark border-light shadow-sm h-100">
+                    <img src="~/images/villa1.jpg" class="card-img-top" alt="Luxury Villa 1">
+                    <div class="card-body">
+                        <h5 class="card-title text-light">Luxury Villa in Goa</h5>
+                        <p class="card-text text-muted">Beachfront bliss with private pool and sunset views.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Villa 2 -->
+            <div class="col-md-4">
+                <div class="card bg-dark border-light shadow-sm h-100">
+                    <img src="~/images/villa2.jpg" class="card-img-top" alt="Luxury Villa 2">
+                    <div class="card-body">
+                        <h5 class="card-title text-light">Mountain Retreat in Manali</h5>
+                        <p class="card-text text-muted">Cozy wood interiors with panoramic Himalayan views.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Villa 3 -->
+            <div class="col-md-4">
+                <div class="card bg-dark border-light shadow-sm h-100">
+                    <img src="~/images/villa3.jpg" class="card-img-top" alt="Luxury Villa 3">
+                    <div class="card-body">
+                        <h5 class="card-title text-light">Heritage Stay in Udaipur</h5>
+                        <p class="card-text text-muted">Royal architecture meets lakeside serenity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="mt-5">
+        <h4 class="text-warning text-center mb-4">🏆 Why Choose Us</h4>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <i class="bi bi-star-fill text-warning fs-2"></i>
+                <h6 class="mt-2 text-light">Top Rated Properties</h6>
+                <p class="text-muted">Handpicked villas with 5-star reviews.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-shield-lock-fill text-warning fs-2"></i>
+                <h6 class="mt-2 text-light">Secure Booking</h6>
+                <p class="text-muted">Encrypted payments and verified listings.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-clock-history text-warning fs-2"></i>
+                <h6 class="mt-2 text-light">24/7 Support</h6>
+                <p class="text-muted">We’re here whenever you need us.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="mt-5">
+        <h4 class="text-warning text-center mb-4">💬 What Guests Say</h4>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner text-center">
+                <div class="carousel-item active">
+                    <blockquote class="blockquote text-light">
+                        <p>"Absolutely stunning villa! Booking was seamless."</p>
+                        <footer class="blockquote-footer text-muted">— Priya, Mumbai</footer>
+                    </blockquote>
+                </div>
+                <div class="carousel-item">
+                    <blockquote class="blockquote text-light">
+                        <p>"The views were breathtaking. Highly recommend!"</p>
+                        <footer class="blockquote-footer text-muted">— Arjun, Bangalore</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Info -->
+    <footer class="mt-5 pt-4 border-top border-secondary text-center text-muted">
+        <p>📞 Need help? Contact us at <strong>taara0361@gmail.com</strong></p>
+        <p>© 2025 AkBookings. All rights reserved.</p>
+    </footer>
+</div>
+
+@section scripts {
+    <script>
+        function fnLoadVillaList() {
+            $('.spinner').show();
+            var objData = {
+                checkInDate: $("#CheckInDate").val(),
+                nights: $("#Nights").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                data: objData,
+                url: "@Url.Action("GetVillasByDate", "Home")",
+                success: function (data) {
+                    $("#VillasList").html(data);
+                    $('.spinner').hide();
+                },
+                failure: function (response) {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
+}

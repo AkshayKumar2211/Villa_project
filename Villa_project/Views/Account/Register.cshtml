@@ -1,0 +1,131 @@
+﻿@model RegisterVM
+
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card glass-card shadow-lg border-0 rounded-4">
+                <!-- Header -->
+                <div class="card-header text-center py-4 border-0 bg-transparent">
+                    <h2 class="fw-bold text-gradient">Create Your Account</h2>
+                    <p class="text-light-50 mb-0">Join us and start your journey today</p>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+                    <form class="row g-3" method="post">
+                        <input asp-for="RedirectUrl" hidden />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- Email -->
+                        <div class="form-floating col-md-12">
+                            <input asp-for="Email" class="form-control styled-input" placeholder="Email" />
+                            <label asp-for="Email" class="form-label text-muted"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="form-floating col-md-6">
+                            <input asp-for="Name" class="form-control styled-input" placeholder="Full Name" />
+                            <label asp-for="Name" class="form-label text-muted"></label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-floating col-md-6">
+                            <input asp-for="PhoneNumber" class="form-control styled-input" placeholder="Phone" />
+                            <label asp-for="PhoneNumber" class="form-label text-muted"></label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-floating col-md-6">
+                            <input asp-for="Password" type="password" class="form-control styled-input" placeholder="Password" />
+                            <label asp-for="Password" class="form-label text-muted"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-floating col-md-6">
+                            <input asp-for="ConfirmPassword" type="password" class="form-control styled-input" placeholder="Confirm Password" />
+                            <label asp-for="ConfirmPassword" class="form-label text-muted"></label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <!-- Role Dropdown -->
+                        <div class="form-floating col-md-6">
+                            <select asp-for="Role" asp-items="@Model.RoleList" class="form-select styled-input">
+                                <option disabled selected>- Select Role -</option>
+                            </select>
+                            <label asp-for="Role" class="form-label text-muted"></label>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="col-12">
+                            <button type="submit" class="btn register-btn w-100 py-2 fw-semibold rounded-pill">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Glassmorphism card */
+    .glass-card {
+        background: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(14px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Gradient heading */
+    .text-gradient {
+        background: linear-gradient(90deg, #ff7eb3, #d65db1, #845ec2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Input styling */
+    .styled-input {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .styled-input:focus {
+            border-color: #ff7eb3 !important;
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.6);
+        }
+
+    /* Labels */
+    .form-label {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* Button */
+    .register-btn {
+        background: linear-gradient(90deg, #ff7eb3, #d65db1, #845ec2);
+        color: white;
+        border: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 126, 179, 0.7);
+        }
+
+    /* Subtle light color */
+    .text-light-50 {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+</style>

@@ -1,0 +1,17 @@
+﻿@model int
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center bg-light shadow-lg rounded-4 p-4 animate__animated animate__fadeIn">
+            <h1 class="text-success fw-bold mb-3">
+                <i class="bi bi-check-circle-fill me-2"></i> Vacation Confirmed!
+            </h1>
+            <h4 class="text-dark mb-4">Order Number: <span class="text-primary fw-semibold">@Model</span></h4>
+            <p class="lead text-muted">You can view all order details in the <strong>Manage Order</strong> section.</p>
+            <img src="~/images/orderConfirmed.jpg" class="img-fluid rounded-4 my-4 shadow-sm" style="max-width: 80%;" alt="Order Confirmed" />
+            <div class="alert alert-warning mt-3 rounded-pill fw-medium">
+                🧳 Pack your bags! You're one step closer to an amazing vacation!
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,131 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.dataTables_filter{
+    margin-bottom:20px;
+}
+
+/* Glass effect */
+.glass-nav {
+    background: rgba(30, 30, 30, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient brand text */
+.text-gradient {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Hover animation */
+.nav-hover {
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+    .nav-hover::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    .nav-hover:hover::after {
+        transform: scaleX(1);
+    }
+
+    .nav-hover:hover {
+        color: #00c6ff !important;
+    }
+
+/* Dropdown styling */
+.dropdown-glass {
+    background: rgba(20, 20, 20, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-nav {
+    background: rgba(20, 20, 20, 0.8) !important;
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+}
+
+/* Gradient text */
+.text-gradient {
+    background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff6a88, #d65db1, #845ec2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Hover animation for nav links */
+.nav-hover {
+    position: relative;
+    transition: color 0.3s ease-in-out;
+}
+
+    .nav-hover::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        left: 0;
+        bottom: -3px;
+        background: #ff7eb3;
+        transition: width 0.3s ease-in-out;
+    }
+
+    .nav-hover:hover::after {
+        width: 100%;
+    }
+
+    .nav-hover:hover {
+        color: #ff7eb3 !important;
+    }
+
+/* Dropdown animation */
+.animate-dropdown {
+    animation: fadeInDown 0.3s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

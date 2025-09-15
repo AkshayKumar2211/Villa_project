@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Villa_project.Application.Common.Interfaces;
+using Villa_project.Infrastructure.Data;
+
+namespace Villa_project.Infrastructure.Repository
+{
+    public class UnitOfWork : IUnitOfWork
+    {
+        private readonly ApplicationDbContext _db;
+
+        public UnitOfWork(ApplicationDbContext db)
+        {
+            _db= db;
+            villa=new VillaRepository(_db);
+            villaNumber=new VillaNumberRepository(_db);
+            amenity=new AmenityRepository(_db);
+            Booking=new BookingRepository(_db);
+            User=new ApplicationUserRepository(_db);
+
+
+        }
+        public IVillaRepository villa { get; private set; }
+       
+
+        public IBookingRepository Booking { get; private set; }
+
+        public IVillaNumberRepository villaNumber { get; private set; }
+
+        public IAmenityRepository amenity { get; private set; }
+
+        public IApplicationUserRepository User {  get; private set; }
+
+        public void Save()
+        {
+            _db.SaveChanges();
+        }
+    }
+}

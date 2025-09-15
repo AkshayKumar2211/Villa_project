@@ -1,0 +1,111 @@
+﻿@model HomeVM
+<div id="VillasList">
+    <div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0">
+
+        @foreach (var villa in Model.VillaList)
+        {
+            <div class="p-4 col-md-6 card-hover">
+                <div class="row shadow-sm" style="border-radius:10px; border: 1px solid #444; background-color:#1e1e1e; color:#ddd;">
+
+                    <!-- Featured Banner -->
+                    <div class="bg-gradient text-light text-center py-1 rounded-top fw-bold" style="background: linear-gradient(to right, #ff8c00, #ff6a00);">
+                        🌟 Featured Villa – Limited Availability!
+                    </div>
+
+                    <!-- Image with Badge -->
+                    <div class="col-4 p-2" style="position: relative;">
+                        <img class="d-block w-100" style="border-radius:5px;" src="@villa.ImageUrl">
+                        <span class="badge bg-success position-absolute top-0 start-0 m-2">New Arrival</span>
+                    </div>
+
+                    <!-- Villa Info -->
+                    <div class="col-8">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <p class="card-title text-warning fw-bold" style="font-size:xx-large">@villa.Name</p>
+                            <div class="pt-2">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-bs-toggle="modal" data-bs-target='#exampleModal-@(villa.Id)'>
+                                    Details
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mood Strip -->
+                        <div class="d-flex justify-content-around py-2 border-top border-bottom small text-muted" style="background-color:#2a2a2a;">
+                            <span>🌅 Sea View</span>
+                            <span>🔥 Private BBQ</span>
+                            <span>🛁 Jacuzzi</span>
+                        </div>
+
+                        <p class="card-text mt-2">
+                            @Html.Raw(villa.Description)
+                        </p>
+                    </div>
+
+                    <!-- Quick Stats Ribbon -->
+                    <div class="col-12">
+                        <div class="text-center py-2 rounded-bottom" style="background-color:#333; color:#ccc;">
+                            🧍 Sleeps: @villa.Occupancy | 📐 Size: @villa.Sqft sqft | 💰 From: @villa.Price.ToString("c")
+                        </div>
+                    </div>
+
+                    <!-- Booking Section -->
+                    <div class="col-12">
+                        <div class="row pb-3 pt-2">
+                            <div class="col-4">
+                                @if (Model.CheckInDate > DateOnly.FromDateTime(DateTime.Now))
+                                {
+                                    if (villa.IsAvailable)
+                                    {
+                                        <a asp-controller="Booking" asp-action="FinalizeBooking"
+                                           asp-route-villaId="@villa.Id" asp-route-checkInDate="@Model.CheckInDate"
+                                           asp-route-nights="@Model.Nights"
+                                           class="btn btn-success form-control btn-block">
+                                            Book
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-outline-danger disabled form-control btn-block">
+                                            Sold Out
+                                        </a>
+                                    }
+                                }
+                            </div>
+                            <div class="col-4">
+                                <span>Max Occupancy: @villa.Occupancy adults</span><br />
+                                <span class="pt-1">Villa Size: @villa.Sqft sqft</span><br />
+                            </div>
+                            <div class="col-4">
+                                <span class="text-warning float-end fw-bold pt-1" style="font-size:25px;">
+                                    USD
+                                    <span style="border-bottom:1px solid #ff6a00">
+                                        @villa.Price.ToString("c")
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal-@(villa.Id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" style="border: 1px solid #444; border-radius:7px;">
+                    <div class="modal-content" style="background-color:#1e1e1e; color:#ddd;">
+                        <!-- Modal Header Glow -->
+                        <div class="modal-header" style="background: linear-gradient(to right, #d4fc79, #96e6a1); box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+                            <h1 class="modal-title fs-3 text-dark" id="exampleModalLabel">Villa Details</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body m-0">
+                            <partial name="_VillaDetail" model="@villa" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,124 @@
+﻿@model LoginVM
+
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card glass-card shadow-lg border-0 rounded-4">
+                <!-- Header -->
+                <div class="card-header text-center py-4 border-0">
+                    <h2 class="fw-bold text-gradient">Welcome Back</h2>
+                    <p class="text-light-50 mb-0">Login to continue your journey</p>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+                    <form method="post">
+                        <input asp-for="RedirectUrl" hidden />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <!-- Email -->
+                        <div class="form-floating mb-4">
+                            <input asp-for="Email" class="form-control styled-input" aria-required="true" placeholder="Email" />
+                            <label asp-for="Email" class="form-label text-muted"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-floating mb-4">
+                            <input asp-for="Password" type="password" class="form-control styled-input" aria-required="true" placeholder="Password" />
+                            <label asp-for="Password" class="form-label text-muted"></label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Remember Me -->
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" asp-for="RememberMe" />
+                            <label class="form-check-label text-light-50" asp-for="RememberMe">Remember Me</label>
+                        </div>
+
+                        <!-- Login Button -->
+                        <button type="submit" class="btn login-btn w-100 py-2 fw-semibold rounded-pill">
+                            Log In
+                        </button>
+
+                        <!-- Links -->
+                        <div class="d-flex justify-content-between pt-3 small">
+                            <a asp-action="ForgotPassword" class="link-hover">Forgot your password?</a>
+                            <a asp-action="Register" asp-route-returnUrl="@Model.RedirectUrl" class="link-hover">Register as a new user</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Glassmorphism card */
+    .glass-card {
+        background: rgba(20, 20, 20, 0.8);
+        backdrop-filter: blur(14px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Gradient heading */
+    .text-gradient {
+        background: linear-gradient(90deg, #ff7eb3, #d65db1, #845ec2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Input styling */
+    .styled-input {
+        background-color: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #fff !important;
+        border-radius: 12px;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .styled-input:focus {
+            border-color: #ff7eb3 !important;
+            box-shadow: 0 0 12px rgba(255, 126, 179, 0.6);
+        }
+
+    /* Labels */
+    .form-label {
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* Button */
+    .login-btn {
+        background: linear-gradient(90deg, #ff7eb3, #d65db1, #845ec2);
+        color: white;
+        border: none;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255, 126, 179, 0.7);
+        }
+
+    /* Links */
+    .link-hover {
+        color: rgba(255, 255, 255, 0.7);
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+    }
+
+        .link-hover:hover {
+            color: #ff7eb3;
+            text-decoration: underline;
+        }
+
+    /* Subtle light color */
+    .text-light-50 {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+</style>
